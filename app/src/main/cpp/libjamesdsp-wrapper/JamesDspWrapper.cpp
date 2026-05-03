@@ -9,6 +9,11 @@
 #include "JamesDspWrapper.h"
 #include "JArrayList.h"
 #include "EelVmVariable.h"
+#include "PitchShifter.h"
+
+inline PitchShifter* castPitch(void* raw) {
+    return static_cast<PitchShifter*>(raw);
+}
 
 extern "C" {
 #include "../EELStdOutExtension.h"
@@ -139,6 +144,7 @@ Java_me_timschneeberger_rootlessjamesdsp_interop_JamesDspWrapper_alloc(JNIEnv *e
     }
 
     self->dsp = _dsp;
+    self->pitchShifter = new PitchShifter(48000.0);
 
     LOGD("JamesDspWrapper::ctor: memory allocated at %lx", (long)self);
     return (long)self;
@@ -156,6 +162,9 @@ Java_me_timschneeberger_rootlessjamesdsp_interop_JamesDspWrapper_free(JNIEnv *en
     JamesDSPFree(dsp);
     free(dsp);
     wrapper->dsp = nullptr;
+
+    delete castPitch(wrapper->pitchShifter);
+    wrapper->pitchShifter = nullptr;
 
     JamesDSPGlobalMemoryDeallocation();
 
@@ -209,6 +218,8 @@ Java_me_timschneeberger_rootlessjamesdsp_interop_JamesDspWrapper_setSamplingRate
 {
     DECLARE_DSP_V
     JamesDSPSetSampleRate(dsp, sample_rate, force_refresh);
+    if (wrapper->pitchShifter)
+        castPitch(wrapper->pitchShifter)->updateSampleRate(sample_rate);
 }
 
 
@@ -236,6 +247,9 @@ Java_me_timschneeberger_rootlessjamesdsp_interop_JamesDspWrapper_processInt16(JN
     auto input = env->GetShortArrayElements(inputObj, nullptr);
     auto output = env->GetShortArrayElements(outputObj, nullptr);
     dsp->processInt16Multiplexd(dsp, input + offset, output, inputLength / 2);
+    auto* ps = castPitch(wrapper->pitchShifter);
+    if (ps && ps->isActive())
+        ps->processInterleaved(output, inputLength / 2);
     env->ReleaseShortArrayElements(inputObj, input, JNI_ABORT);
     env->ReleaseShortArrayElements(outputObj, output, 0);
 }
@@ -317,6 +331,10 @@ Java_me_timschneeberger_rootlessjamesdsp_interop_JamesDspWrapper_processFloat(JN
     auto output = env->GetFloatArrayElements(outputObj, nullptr);
 
     dsp->processFloatMultiplexd(dsp, input + offset, output, inputLength / 2);
+
+    auto* ps = castPitch(wrapper->pitchShifter);
+    if (ps && ps->isActive())
+        ps->processInterleaved(output, inputLength / 2);
 
     env->ReleaseFloatArrayElements(inputObj, input, JNI_ABORT);
     env->ReleaseFloatArrayElements(outputObj, output, 0);
@@ -732,6 +750,20 @@ Java_me_timschneeberger_rootlessjamesdsp_interop_JamesDspWrapper_eelErrorCodeToS
                                                                                      jint error_code)
 {
     return env->NewStringUTF(checkErrorCode(error_code));
+}
+
+extern "C" JNIEXPORT jboolean JNICALL
+Java_me_timschneeberger_rootlessjamesdsp_interop_JamesDspWrapper_setPitchShift(JNIEnv *env, jobject obj, jlong self,
+                                                                               jboolean enable, jfloat octaves, jfloat semitones, jfloat cents)
+{
+    DECLARE_WRAPPER_B
+    auto* ps = castPitch(wrapper->pitchShifter);
+    if (!ps) return false;
+    if (enable)
+        ps->setPitch(octaves, semitones, cents);
+    else
+        ps->setPitch(0.0, 0.0, 0.0);
+    return true;
 }
 
 void receiveLiveprogStdOut(const char *buffer, void* userData)

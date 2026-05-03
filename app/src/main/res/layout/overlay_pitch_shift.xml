@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <!-- Expanded card -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/expanded_view"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        app:cardElevation="8dp"
+        app:cardCornerRadius="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Header / drag handle -->
+            <LinearLayout
+                android:id="@+id/drag_handle"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="14dp"
+                android:paddingEnd="4dp"
+                android:background="?attr/colorSurfaceVariant">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Pitch Shift"
+                    android:textAppearance="?attr/textAppearanceTitleSmall"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <ImageButton
+                    android:id="@+id/btn_collapse"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_baseline_keyboard_arrow_down_24dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Minimize"
+                    android:tint="?attr/colorOnSurfaceVariant" />
+
+                <ImageButton
+                    android:id="@+id/btn_close"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_close_24dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Close"
+                    android:tint="?attr/colorOnSurfaceVariant" />
+            </LinearLayout>
+
+            <!-- Rows -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp">
+
+                <!-- Octaves -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="56dp"
+                        android:layout_height="wrap_content"
+                        android:text="Octaves"
+                        android:textAppearance="?attr/textAppearanceLabelSmall"
+                        android:maxLines="1" />
+
+                    <ImageButton
+                        android:id="@+id/btn_oct_minus"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_twotone_remove_24dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="-" />
+
+                    <SeekBar
+                        android:id="@+id/seekbar_octaves"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp" />
+
+                    <ImageButton
+                        android:id="@+id/btn_oct_plus"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_baseline_add_24dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="+" />
+
+                    <TextView
+                        android:id="@+id/tv_oct_value"
+                        android:layout_width="32dp"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:gravity="center"
+                        android:textAppearance="?attr/textAppearanceLabelMedium" />
+
+                    <ImageButton
+                        android:id="@+id/btn_oct_reset"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_baseline_refresh_24dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="Reset" />
+                </LinearLayout>
+
+                <!-- Semitones -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="56dp"
+                        android:layout_height="wrap_content"
+                        android:text="Semitones"
+                        android:textAppearance="?attr/textAppearanceLabelSmall"
+                        android:maxLines="1" />
+
+                    <ImageButton
+                        android:id="@+id/btn_semi_minus"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_twotone_remove_24dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="-" />
+
+                    <SeekBar
+                        android:id="@+id/seekbar_semitones"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp" />
+
+                    <ImageButton
+                        android:id="@+id/btn_semi_plus"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_baseline_add_24dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="+" />
+
+                    <TextView
+                        android:id="@+id/tv_semi_value"
+                        android:layout_width="32dp"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:gravity="center"
+                        android:textAppearance="?attr/textAppearanceLabelMedium" />
+
+                    <ImageButton
+                        android:id="@+id/btn_semi_reset"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_baseline_refresh_24dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="Reset" />
+                </LinearLayout>
+
+                <!-- Cents -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="56dp"
+                        android:layout_height="wrap_content"
+                        android:text="Cents"
+                        android:textAppearance="?attr/textAppearanceLabelSmall"
+                        android:maxLines="1" />
+
+                    <ImageButton
+                        android:id="@+id/btn_cents_minus"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_twotone_remove_24dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="-" />
+
+                    <SeekBar
+                        android:id="@+id/seekbar_cents"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp" />
+
+                    <ImageButton
+                        android:id="@+id/btn_cents_plus"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_baseline_add_24dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="+" />
+
+                    <TextView
+                        android:id="@+id/tv_cents_value"
+                        android:layout_width="32dp"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:gravity="center"
+                        android:textAppearance="?attr/textAppearanceLabelMedium" />
+
+                    <ImageButton
+                        android:id="@+id/btn_cents_reset"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_baseline_refresh_24dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="Reset" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Collapsed pill — tap to expand, drag to move -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/collapsed_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="20dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:paddingEnd="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="♪ Pitch"
+                android:textAppearance="?attr/textAppearanceLabelMedium" />
+
+            <ImageButton
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="4dp"
+                android:src="@drawable/ic_baseline_keyboard_arrow_up_24dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Expand"
+                android:clickable="false"
+                android:focusable="false" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</FrameLayout>

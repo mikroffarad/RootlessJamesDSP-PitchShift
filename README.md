@@ -4,7 +4,7 @@
   RootlessJamesDSP
   <br>
 </h1>
-<h4 align="center">System-wide JamesDSP implementation for non-rooted Android devices</h4>
+<h4 align="center">System-wide JamesDSP implementation for Android — rootless and root variants</h4>
 <p align="center">
   <a href="https://play.google.com/store/apps/details?id=me.timschneeberger.rootlessjamesdsp&utm_source=github&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
   	<img alt="Google play release" src="https://img.shields.io/github/v/release/ThePBone/RootlessJamesDSP?label=google%20play">
@@ -21,6 +21,7 @@
 
 </p>
 <p align="center">
+  <a href="#pitch-shift-fork">Pitch Shift Fork</a> •
   <a href="#limitations">Limitations</a> •
   <a href="#spotify-support-patch">Spotify patch</a> •
   <a href="#downloads">Downloads</a> •
@@ -46,6 +47,35 @@ This app uses <a href="https://github.com/james34602/JamesDSPManager">libjamesds
    <img alt="Screenshot" width="250" src="img/screenshot7.png">
 </p>
 
+
+## Pitch Shift Fork
+
+This is a fork of [timschneeberger/RootlessJamesDSP](https://github.com/timschneeberger/RootlessJamesDSP) that adds **real-time pitch shifting** (octaves, semitones, cents) powered by [librubberband](https://breakfastquay.com/rubberband/).
+
+### What's new
+
+* Pitch shift effect with octave, semitone and cent controls
+* Floating overlay — adjust pitch without leaving the current app
+
+### Two variants — choose based on your device
+
+| | Rootless | Root (Magisk / KernelSU) |
+|---|---|---|
+| **Requires root** | No | Yes |
+| **Supported apps** | Most (see limitations below) | All |
+| **Installation** | Install APK | Install APK + Magisk module |
+| **Package** | `me.timschneeberger.rootlessjamesdsp` | `james.dsp` |
+
+#### Rootless variant
+Install `RootlessJamesDSP-...-rootless-...-release.apk` from the [Releases](../../releases) page.
+Works on Android 10+ without root. Subject to the limitations listed below (some apps block audio capture).
+
+#### Root variant
+Install `JamesDSP-...-root-...-release.apk` **and** flash `install-vX.zip` via Magisk or KernelSU.
+Works on Android 8+ with Magisk or KernelSU. No limitations — all apps are processed.
+The module source is in [`ainur_jamesdsp/`](ainur_jamesdsp/).
+
+---
 
 ## Limitations
 * Apps blocking internal audio capture remain unprocessed (e.g., Spotify, Google Chrome)
@@ -132,26 +162,23 @@ Not all languages are enabled at the moment in Crowdin. To request a new languag
 
 ## Downloads
 
-This app is available for free on Google Play: [https://play.google.com/store/apps/details?id=me.timschneeberger.rootlessjamesdsp](https://play.google.com/store/apps/details?id=me.timschneeberger.rootlessjamesdsp&utm_source=github&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
+Download APKs and the Magisk module zip from the [Releases](../../releases) page.
 
-Also available on F-Droid: https://f-droid.org/packages/me.timschneeberger.rootlessjamesdsp/
+**Rootless** (no root required, Android 10+):
+`RootlessJamesDSP-vX.Y.Z-rootless-full-universal-release.apk`
 
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-    alt="Get it on F-Droid"
-    height="80">](https://f-droid.org/packages/me.timschneeberger.rootlessjamesdsp/)
-[<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
-    alt="Get it on Google Play"
-    height="80">](https://play.google.com/store/apps/details?id=me.timschneeberger.rootlessjamesdsp&utm_source=github&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
+**Root** (Magisk / KernelSU, Android 8+):
+`JamesDSP-vX.Y.Z-root-full-universal-release.apk` + `install-vX.zip`
 
-## Using Root
-
-This app focuses on a rootless implementation, but it can be made to work with the magisk module too. [See here for details](BUILD_ROOT.md).
-
-All the limitations mentioned above are **not relevant** for the magisk/root version. 
+> For the original app without pitch shift, see [timschneeberger/RootlessJamesDSP](https://github.com/timschneeberger/RootlessJamesDSP) on Google Play and F-Droid.
 
 ## Credits
 
 * JamesDSP - [James Fung (@james34602)](https://github.com/james34602)
+* Original app - [Tim Schneeberger (@timschneeberger)](https://github.com/timschneeberger)
+* Magisk module base - [zackptg5](https://github.com/zackptg5), [ahrion](https://github.com/ahrion)
+* Pitch shift fork - [mikroffarad](https://github.com/mikroffarad), Claude (Anthropic)
+* librubberband - [Breakfast Quay](https://breakfastquay.com/rubberband/)
 * Theming system & backup system based on Tachiyomi
 
 ### Translators

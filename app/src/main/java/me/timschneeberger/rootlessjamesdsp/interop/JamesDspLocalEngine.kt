@@ -121,6 +121,11 @@ class JamesDspLocalEngine(context: Context, callbacks: JamesDspWrapper.JamesDspC
         return JamesDspWrapper.setVacuumTube(handle, enable, level)
     }
 
+    override fun setPitchShift(enable: Boolean, octaves: Float, semitones: Float, cents: Float): Boolean
+    {
+        return JamesDspWrapper.setPitchShift(handle, enable, octaves, semitones, cents)
+    }
+
     override fun setMultiEqualizerInternal(
         enable: Boolean,
         filterType: Int,

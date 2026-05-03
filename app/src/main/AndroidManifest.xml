@@ -265,6 +265,10 @@
             android:foregroundServiceType="dataSync"
             android:exported="false" />
 
+        <service
+            android:name=".service.PitchOverlayService"
+            android:exported="false" />
+
         <!-- Receivers -->
         <receiver
             android:name=".receiver.SessionReceiver"

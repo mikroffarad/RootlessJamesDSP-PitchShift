@@ -5,7 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.XmlRes
@@ -26,6 +28,7 @@ import me.timschneeberger.rootlessjamesdsp.preference.EqualizerPreference
 import me.timschneeberger.rootlessjamesdsp.preference.FileLibraryPreference
 import me.timschneeberger.rootlessjamesdsp.preference.MaterialSeekbarPreference
 import me.timschneeberger.rootlessjamesdsp.preference.SwitchPreferenceGroup
+import me.timschneeberger.rootlessjamesdsp.service.PitchOverlayService
 import me.timschneeberger.rootlessjamesdsp.utils.Constants
 import me.timschneeberger.rootlessjamesdsp.utils.extensions.ContextExtensions.registerLocalReceiver
 import me.timschneeberger.rootlessjamesdsp.utils.extensions.ContextExtensions.sendLocalBroadcast
@@ -189,6 +192,23 @@ class PreferenceGroupFragment : PreferenceFragmentCompat(), KoinComponent {
                 findPreference<Preference>(getString(R.string.key_peq_bands))?.setOnPreferenceClickListener {
                     val intent = Intent(requireContext(), ParametricEqualizerActivity::class.java)
                     startActivity(intent)
+                    true
+                }
+            }
+            R.xml.dsp_pitchshift_preferences -> {
+                findPreference<Preference>(getString(R.string.key_pitchshift_overlay))?.setOnPreferenceClickListener {
+                    val ctx = requireContext()
+                    if (!Settings.canDrawOverlays(ctx)) {
+                        val intent = Intent(
+                            Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                            Uri.parse("package:${ctx.packageName}")
+                        )
+                        startActivity(intent)
+                    } else if (PitchOverlayService.isRunning) {
+                        ctx.stopService(Intent(ctx, PitchOverlayService::class.java))
+                    } else {
+                        ctx.startService(Intent(ctx, PitchOverlayService::class.java))
+                    }
                     true
                 }
             }

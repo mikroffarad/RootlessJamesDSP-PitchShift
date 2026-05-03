@@ -6,6 +6,7 @@
 typedef struct
 {
     void* dsp;
+    void* pitchShifter;  // PitchShifter*, owned
     JNIEnv* env;
     jobject callbackInterface;
     jmethodID callbackOnLiveprogOutput;

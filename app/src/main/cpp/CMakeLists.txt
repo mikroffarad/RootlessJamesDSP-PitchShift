@@ -12,6 +12,24 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ffunction-sections -fdata-sections -Ofa
 project(jamesdsp LANGUAGES C)
 project(jamesdsp-wrapper LANGUAGES CXX)
 
+# ---- RubberBand (single-file build, built-in FFT + BQResampler) ----
+add_library(rubberband STATIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/librubberband/single/RubberBandSingle.cpp)
+
+target_include_directories(rubberband PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/librubberband)
+
+target_compile_options(rubberband PRIVATE
+    -O2
+    -std=c++17
+    -DUSE_BUILTIN_FFT=1
+    -DUSE_BQRESAMPLER=1
+    -DNO_TIMING=1
+    -DNO_THREADING=1
+    -DNO_THREAD_CHECKS=1
+    -Wno-unused-variable
+    -Wno-unused-function)
+
 include(libcrashlytics-connector/CMakeLists.txt)
 include(libjdspimptoolbox/CMakeLists.txt)
 include(libjamesdsp-wrapper/CMakeLists.txt)

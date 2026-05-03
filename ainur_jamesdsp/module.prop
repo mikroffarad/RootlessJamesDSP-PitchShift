@@ -1,0 +1,6 @@
+id=ainur_jamesdsp
+name=JamesDSP Manager (Pitch Shift)
+version=v7.0-pitchshift (2026-05-03)
+versionCode=110
+author=james34602, zackptg5, ahrion, mikroffarad, Claude
+description=JamesDSP audio engine with built-in pitch shift (octaves/semitones/cents) via RubberBand. Includes floating overlay for pitch control over any app. Based on RootlessJamesDSP by timschneeberger.

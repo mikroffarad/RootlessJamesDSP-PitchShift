@@ -121,6 +121,10 @@ class DspFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListen
                     R.xml.dsp_crossfeed_preferences
                 ))
             .replace(
+                R.id.card_pitchshift, PreferenceGroupFragment.newInstance(Constants.PREF_PITCHSHIFT,
+                    R.xml.dsp_pitchshift_preferences
+                ))
+            .replace(
                 R.id.card_reverb, PreferenceGroupFragment.newInstance(Constants.PREF_REVERB,
                     R.xml.dsp_reverb_preferences
                 ))

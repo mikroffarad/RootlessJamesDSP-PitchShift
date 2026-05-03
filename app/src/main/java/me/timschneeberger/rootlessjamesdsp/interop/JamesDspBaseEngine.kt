@@ -120,6 +120,12 @@ abstract class JamesDspBaseEngine(val context: Context, val callbacks: JamesDspW
             val convolverAdvImp = cache.get(R.string.key_convolver_adv_imp, Constants.DEFAULT_CONVOLVER_ADVIMP)
             val convolverMode = cache.get(R.string.key_convolver_mode, "0").toInt()
 
+            cache.select(Constants.PREF_PITCHSHIFT)
+            val pitchEnabled = cache.get(R.string.key_pitchshift_enable, false)
+            val pitchOctaves = cache.get(R.string.key_pitchshift_octaves, 0f)
+            val pitchSemitones = cache.get(R.string.key_pitchshift_semitones, 0f)
+            val pitchCents = cache.get(R.string.key_pitchshift_cents, 0f)
+
             val targets = cache.changedNamespaces.toTypedArray() + (forceUpdateNamespaces ?: arrayOf())
             targets.forEach {
                 Timber.i("Committing new changes in namespace '$it'")
@@ -138,6 +144,7 @@ abstract class JamesDspBaseEngine(val context: Context, val callbacks: JamesDspW
                     Constants.PREF_DDC -> setVdc(ddcEnabled, ddcFile)
                     Constants.PREF_LIVEPROG -> setLiveprog(liveProgEnabled, liveprogFile)
                     Constants.PREF_CONVOLVER -> setConvolver(convolverEnabled, convolverFile, convolverMode, convolverAdvImp)
+                    Constants.PREF_PITCHSHIFT -> setPitchShift(pitchEnabled, pitchOctaves, pitchSemitones, pitchCents)
                     else -> true
                 }
 
@@ -394,6 +401,7 @@ abstract class JamesDspBaseEngine(val context: Context, val callbacks: JamesDspW
     abstract fun setBassBoost(enable: Boolean, maxGain: Float): Boolean
     abstract fun setStereoEnhancement(enable: Boolean, level: Float): Boolean
     abstract fun setVacuumTube(enable: Boolean, level: Float): Boolean
+    abstract fun setPitchShift(enable: Boolean, octaves: Float, semitones: Float, cents: Float): Boolean
 
     protected abstract fun setMultiEqualizerInternal(enable: Boolean, filterType: Int, interpolationMode: Int, bands: DoubleArray): Boolean
     protected abstract fun setCompanderInternal(enable: Boolean, timeConstant: Float, granularity: Int, tfTransforms: Int, bands: DoubleArray): Boolean

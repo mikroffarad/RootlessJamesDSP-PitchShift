@@ -703,4 +703,11 @@ Tap on \'Tutorial\' below for detailed instructions.</string>
     <string name="android_15_screenshare_keyguard_warning">Android 15 introduces a restriction that stops screen sharing when the device is locked. To workaround this issue, the \'PROJECT_MEDIA\' permission must be granted using Shizuku or ADB.
 
 Please press \'Continue\' below to re-do the setup wizard.</string>
+
+    <string name="pitchshift_enable">Pitch shift</string>
+    <string name="pitchshift_octaves">Octaves</string>
+    <string name="pitchshift_semitones">Semitones</string>
+    <string name="pitchshift_cents">Cents</string>
+    <string name="pitchshift_overlay">Floating overlay</string>
+    <string name="pitchshift_overlay_summary">Adjust pitch while using other apps</string>
 </resources>

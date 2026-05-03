@@ -135,4 +135,10 @@
     <string name="key_limiter_threshold" translatable="false">limiter_threshold</string>
     <string name="key_limiter_release" translatable="false">limiter_release</string>
     <string name="key_output_postgain" translatable="false">output_postgain</string>
+
+    <string name="key_pitchshift_enable" translatable="false">pitchshift_enable</string>
+    <string name="key_pitchshift_octaves" translatable="false">pitchshift_octaves</string>
+    <string name="key_pitchshift_semitones" translatable="false">pitchshift_semitones</string>
+    <string name="key_pitchshift_cents" translatable="false">pitchshift_cents</string>
+    <string name="key_pitchshift_overlay" translatable="false">pitchshift_overlay</string>
 </resources>

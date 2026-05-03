@@ -181,6 +181,13 @@ class JamesDspRemoteEngine(
         return ret and (effect.setParameter(1206, enable.toShort()) == AudioEffect.SUCCESS)
     }
 
+    override fun setPitchShift(enable: Boolean, octaves: Float, semitones: Float, cents: Float): Boolean {
+        var ret = effect.setParameter(1215, octaves.roundToInt().toShort()) == AudioEffect.SUCCESS
+        ret = ret and (effect.setParameter(1216, semitones.roundToInt().toShort()) == AudioEffect.SUCCESS)
+        ret = ret and (effect.setParameter(1217, cents.roundToInt().toShort()) == AudioEffect.SUCCESS)
+        return ret and (effect.setParameter(1214, enable.toShort()) == AudioEffect.SUCCESS)
+    }
+
     override fun setMultiEqualizerInternal(
         enable: Boolean,
         filterType: Int,
