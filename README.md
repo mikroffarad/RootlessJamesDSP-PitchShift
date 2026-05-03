@@ -43,8 +43,8 @@ This app uses <a href="https://github.com/james34602/JamesDSPManager">libjamesds
 </p>
 
 <p align="center">
-   <img alt="Screenshot" width="250" src="img/screenshot1.png">
-   <img alt="Screenshot" width="250" src="img/screenshot7.png">
+   <img alt="Screenshot" width="250" src="img/screenshot1.jpg">
+   <img alt="Screenshot" width="250" src="img/screenshot2.jpg">
 </p>
 
 
