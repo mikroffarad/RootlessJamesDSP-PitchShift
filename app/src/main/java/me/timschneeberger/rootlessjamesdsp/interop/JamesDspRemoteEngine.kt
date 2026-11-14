@@ -31,6 +31,8 @@ class JamesDspRemoteEngine(
     callbacks: JamesDspWrapper.JamesDspCallbacks? = null,
 ) : JamesDspBaseEngine(context, callbacks) {
 
+    private var convolverSampleRate = 0
+
     private val broadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.action) {
@@ -225,8 +227,11 @@ class JamesDspRemoteEngine(
         impulseResponse: FloatArray,
         irChannels: Int,
         irFrames: Int,
-        irCrc: Int
+        irCrc: Int,
+        irSampleRate: Int,
     ): Boolean {
+
+        convolverSampleRate = irSampleRate
 
         val prevCrc = this.convolverHash
 
@@ -237,6 +242,16 @@ class JamesDspRemoteEngine(
         }
 
         return effect.setParameter(1205, enable.toShort()) == AudioEffect.SUCCESS
+    }
+
+    fun reloadConvolverIfSampleRateChanged() {
+        val currentSampleRate = sampleRate.toInt()
+        if (currentSampleRate > 0 && currentSampleRate != convolverSampleRate) {
+            Timber.i(
+                "Convolver sample rate changed from ${convolverSampleRate}Hz to ${currentSampleRate}Hz"
+            )
+            syncWithPreferences(arrayOf(Constants.PREF_CONVOLVER))
+        }
     }
 
     override fun setGraphicEqInternal(enable: Boolean, bands: String): Boolean {
