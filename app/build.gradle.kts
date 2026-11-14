@@ -1,4 +1,5 @@
 import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
+import java.util.Properties
 
 plugins {
     id("com.android.application")
@@ -11,9 +12,31 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version "2.1.0"
 }
 
+// Release signing: local.properties (not in git) may point to a file outside the repository,
+//   signing.properties=/path/to/release.properties
+// with storeFile, storePassword, keyAlias and keyPassword. Without it, release builds use the debug key.
+val releaseSigning = Properties().apply {
+    val local = Properties()
+    rootProject.file("local.properties").takeIf { it.isFile }?.inputStream()?.use { local.load(it) }
+    local.getProperty("signing.properties")?.let { path ->
+        file(path).takeIf { it.isFile }?.inputStream()?.use { load(it) }
+    }
+}
+
 android {
 
     val SUPPORTED_ABIS = setOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+
+    signingConfigs {
+        if (releaseSigning.getProperty("storeFile") != null) {
+            create("release") {
+                storeFile = file(releaseSigning.getProperty("storeFile"))
+                storePassword = releaseSigning.getProperty("storePassword")
+                keyAlias = releaseSigning.getProperty("keyAlias")
+                keyPassword = releaseSigning.getProperty("keyPassword")
+            }
+        }
+    }
     compileSdk = AndroidConfig.compileSdk
     project.setProperty("archivesBaseName", "RootlessJamesDSP-v${AndroidConfig.versionName}")
 
@@ -60,7 +83,7 @@ android {
             //proguardFiles("proguard-android-optimize.txt", "proguard-rules.pro")
             isMinifyEnabled = false
             isShrinkResources = false
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.findByName("release") ?: signingConfigs.getByName("debug")
         }
         create("preview") {
             initWith(getByName("release"))
