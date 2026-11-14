@@ -7,21 +7,21 @@
     <!-- Expanded card -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/expanded_view"
-        android:layout_width="320dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         app:cardElevation="8dp"
-        app:cardCornerRadius="12dp">
+        app:cardCornerRadius="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Header / drag handle -->
+            <!-- Header / drag handle: total shift + actions -->
             <LinearLayout
                 android:id="@+id/drag_handle"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="44dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:paddingStart="14dp"
@@ -29,12 +29,32 @@
                 android:background="?attr/colorSurfaceVariant">
 
                 <TextView
+                    android:id="@+id/tv_total"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Pitch Shift"
+                    android:maxLines="1"
+                    android:text="@string/pitch_overlay_total_zero"
                     android:textAppearance="?attr/textAppearanceTitleSmall"
                     android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <ImageButton
+                    android:id="@+id/btn_open_app"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_baseline_equalizer_24dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/pitch_overlay_open_app"
+                    app:tint="?attr/colorOnSurfaceVariant" />
+
+                <ImageButton
+                    android:id="@+id/btn_reset_all"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_baseline_refresh_24dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/pitch_overlay_reset_all"
+                    app:tint="?attr/colorOnSurfaceVariant" />
 
                 <ImageButton
                     android:id="@+id/btn_collapse"
@@ -42,8 +62,8 @@
                     android:layout_height="40dp"
                     android:src="@drawable/ic_baseline_keyboard_arrow_down_24dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="Minimize"
-                    android:tint="?attr/colorOnSurfaceVariant" />
+                    android:contentDescription="@string/pitch_overlay_minimize"
+                    app:tint="?attr/colorOnSurfaceVariant" />
 
                 <ImageButton
                     android:id="@+id/btn_close"
@@ -51,190 +71,178 @@
                     android:layout_height="40dp"
                     android:src="@drawable/ic_close_24dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="Close"
-                    android:tint="?attr/colorOnSurfaceVariant" />
+                    android:contentDescription="@string/pitch_overlay_close"
+                    app:tint="?attr/colorOnSurfaceVariant" />
             </LinearLayout>
 
-            <!-- Rows -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingTop="6dp"
-                android:paddingBottom="6dp"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp">
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="10dp">
 
-                <!-- Octaves -->
+                <!-- Tabs: pick the parameter; each tab also shows its current value -->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp">
 
-                    <TextView
-                        android:layout_width="56dp"
-                        android:layout_height="wrap_content"
-                        android:text="Octaves"
-                        android:textAppearance="?attr/textAppearanceLabelSmall"
-                        android:maxLines="1" />
-
-                    <ImageButton
-                        android:id="@+id/btn_oct_minus"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_twotone_remove_24dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="-" />
-
-                    <SeekBar
-                        android:id="@+id/seekbar_octaves"
+                    <LinearLayout
+                        android:id="@+id/tab_cents"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:paddingStart="2dp"
-                        android:paddingEnd="2dp" />
-
-                    <ImageButton
-                        android:id="@+id/btn_oct_plus"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_baseline_add_24dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="+" />
-
-                    <TextView
-                        android:id="@+id/tv_oct_value"
-                        android:layout_width="32dp"
-                        android:layout_height="wrap_content"
-                        android:text="0"
+                        android:layout_marginEnd="6dp"
+                        android:orientation="vertical"
                         android:gravity="center"
-                        android:textAppearance="?attr/textAppearanceLabelMedium" />
+                        android:paddingTop="4dp"
+                        android:paddingBottom="5dp"
+                        android:clickable="true"
+                        android:focusable="true">
 
-                    <ImageButton
-                        android:id="@+id/btn_oct_reset"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_baseline_refresh_24dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="Reset" />
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/tab_cents_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pitch_overlay_cents"
+                            android:textAllCaps="true"
+                            android:textSize="11sp"
+                            android:letterSpacing="0.06" />
 
-                <!-- Semitones -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                        <TextView
+                            android:id="@+id/tab_cents_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
-                    <TextView
-                        android:layout_width="56dp"
-                        android:layout_height="wrap_content"
-                        android:text="Semitones"
-                        android:textAppearance="?attr/textAppearanceLabelSmall"
-                        android:maxLines="1" />
-
-                    <ImageButton
-                        android:id="@+id/btn_semi_minus"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_twotone_remove_24dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="-" />
-
-                    <SeekBar
-                        android:id="@+id/seekbar_semitones"
+                    <LinearLayout
+                        android:id="@+id/tab_semitones"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:paddingStart="2dp"
-                        android:paddingEnd="2dp" />
-
-                    <ImageButton
-                        android:id="@+id/btn_semi_plus"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_baseline_add_24dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="+" />
-
-                    <TextView
-                        android:id="@+id/tv_semi_value"
-                        android:layout_width="32dp"
-                        android:layout_height="wrap_content"
-                        android:text="0"
+                        android:layout_marginEnd="6dp"
+                        android:orientation="vertical"
                         android:gravity="center"
-                        android:textAppearance="?attr/textAppearanceLabelMedium" />
+                        android:paddingTop="4dp"
+                        android:paddingBottom="5dp"
+                        android:clickable="true"
+                        android:focusable="true">
 
-                    <ImageButton
-                        android:id="@+id/btn_semi_reset"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_baseline_refresh_24dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="Reset" />
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/tab_semitones_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pitch_overlay_semitones"
+                            android:textAllCaps="true"
+                            android:textSize="11sp"
+                            android:letterSpacing="0.06" />
 
-                <!-- Cents -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                        <TextView
+                            android:id="@+id/tab_semitones_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
-                    <TextView
-                        android:layout_width="56dp"
-                        android:layout_height="wrap_content"
-                        android:text="Cents"
-                        android:textAppearance="?attr/textAppearanceLabelSmall"
-                        android:maxLines="1" />
-
-                    <ImageButton
-                        android:id="@+id/btn_cents_minus"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_twotone_remove_24dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="-" />
-
-                    <SeekBar
-                        android:id="@+id/seekbar_cents"
+                    <LinearLayout
+                        android:id="@+id/tab_octaves"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:paddingStart="2dp"
-                        android:paddingEnd="2dp" />
-
-                    <ImageButton
-                        android:id="@+id/btn_cents_plus"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_baseline_add_24dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="+" />
-
-                    <TextView
-                        android:id="@+id/tv_cents_value"
-                        android:layout_width="32dp"
-                        android:layout_height="wrap_content"
-                        android:text="0"
+                        android:orientation="vertical"
                         android:gravity="center"
-                        android:textAppearance="?attr/textAppearanceLabelMedium" />
+                        android:paddingTop="4dp"
+                        android:paddingBottom="5dp"
+                        android:clickable="true"
+                        android:focusable="true">
 
-                    <ImageButton
-                        android:id="@+id/btn_cents_reset"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_baseline_refresh_24dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="Reset" />
+                        <TextView
+                            android:id="@+id/tab_octaves_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pitch_overlay_octaves"
+                            android:textAllCaps="true"
+                            android:textSize="11sp"
+                            android:letterSpacing="0.06" />
+
+                        <TextView
+                            android:id="@+id/tab_octaves_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
                 </LinearLayout>
 
+                <!-- Full-width carousel; only the active parameter's carousel is visible.
+                     The wide top margin keeps swipes away from the tabs. -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="16dp">
+
+                    <me.timschneeberger.rootlessjamesdsp.view.PitchCarouselView
+                        android:id="@+id/carousel_cents"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="invisible" />
+
+                    <me.timschneeberger.rootlessjamesdsp.view.PitchCarouselView
+                        android:id="@+id/carousel_semitones"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="invisible" />
+
+                    <me.timschneeberger.rootlessjamesdsp.view.PitchCarouselView
+                        android:id="@+id/carousel_octaves"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="invisible" />
+                </FrameLayout>
+
+                <!-- ‹ › side by side under the carousel, so the thumb doesn't travel far -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <ImageButton
+                        android:id="@+id/btn_prev"
+                        android:layout_width="72dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/ic_pitch_chevron_left_24dp"
+                        android:background="@drawable/bg_pitch_step_button"
+                        android:contentDescription="@string/pitch_overlay_previous_value"
+                        app:tint="?attr/colorOnSurfaceVariant" />
+
+                    <ImageButton
+                        android:id="@+id/btn_next"
+                        android:layout_width="72dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_pitch_chevron_right_24dp"
+                        android:background="@drawable/bg_pitch_step_button"
+                        android:contentDescription="@string/pitch_overlay_next_value"
+                        app:tint="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Collapsed pill — tap to expand, drag to move -->
+    <!-- Collapsed pill: shows the current shift; tap to expand, drag to move -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/collapsed_view"
         android:layout_width="wrap_content"
@@ -252,10 +260,11 @@
             android:paddingEnd="8dp">
 
             <TextView
+                android:id="@+id/tv_pill"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="♪ Pitch"
-                android:textAppearance="?attr/textAppearanceLabelMedium" />
+                android:text="@string/pitch_overlay_total_zero"
+                android:textAppearance="?attr/textAppearanceLabelLarge" />
 
             <ImageButton
                 android:layout_width="28dp"
@@ -263,7 +272,7 @@
                 android:layout_marginStart="4dp"
                 android:src="@drawable/ic_baseline_keyboard_arrow_up_24dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Expand"
+                android:contentDescription="@string/pitch_overlay_expand"
                 android:clickable="false"
                 android:focusable="false" />
         </LinearLayout>

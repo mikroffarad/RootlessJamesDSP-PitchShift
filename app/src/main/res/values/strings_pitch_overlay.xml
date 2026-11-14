@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Strings of the floating pitch-shift overlay. Kept in a separate file so merges from upstream
+     (which edit strings.xml) don't conflict with this fork's changes. -->
+<resources>
+    <string name="pitch_overlay_octaves" translatable="false">Oct</string>
+    <string name="pitch_overlay_semitones" translatable="false">Semi</string>
+    <string name="pitch_overlay_cents" translatable="false">Cents</string>
+    <string name="pitch_overlay_total_zero" translatable="false">♪ 0 st</string>
+    <string name="pitch_overlay_total_format" translatable="false">♪ %1$s st</string>
+    <string name="pitch_overlay_open_app" translatable="false">Open JamesDSP</string>
+    <string name="pitch_overlay_reset_all" translatable="false">Reset all</string>
+    <string name="pitch_overlay_minimize" translatable="false">Minimize</string>
+    <string name="pitch_overlay_expand" translatable="false">Expand</string>
+    <string name="pitch_overlay_close" translatable="false">Close</string>
+    <string name="pitch_overlay_previous_value" translatable="false">Lower by one</string>
+    <string name="pitch_overlay_next_value" translatable="false">Raise by one</string>
+</resources>
